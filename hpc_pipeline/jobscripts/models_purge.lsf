@@ -1,0 +1,22 @@
+#!/bin/bash
+#  SLURM Directives, delete worst models
+#SBATCH -A bif138
+#SBATCH -t 4:00:00
+#SBATCH -N 1
+#SBATCH -J purge_models
+#SBATCH -o purge_models.%J
+#SBATCH -e purge_models_err.%J
+
+for i in {3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,21}; do
+
+  echo $i
+  cd /gpfs/alpine/proj-shared/bif138/chr${i}
+
+  while read tile; do
+
+    cd /gpfs/alpine/proj-shared/bif138/chr${i}/${tile}
+    sed -e 's/^/IMPUTATOR/' worst.txt | xargs rm -fr
+
+  done < tiles.marked
+done
+

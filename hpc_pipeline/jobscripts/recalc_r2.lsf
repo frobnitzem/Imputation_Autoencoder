@@ -1,0 +1,21 @@
+#!/bin/bash
+# Run the recalc_r2.sh script on all directories in the `progress` list.
+# run from inside of a chr_nn directory you want to re-compute.
+#BSUB -P stf006
+#BSUB -W 24:00
+#BSUB -nnodes 1
+#BSUB -q batch-hm
+#BSUB -J recalc_r2
+#BSUB -o recalc_r2.%J
+
+source $PROJWORK/bif138/rogersdd/env2.sh
+WD=`pwd`
+
+cat tiles.done tiles.progress | (
+while read -r dir; do
+    cd $dir
+    bash /gpfs/alpine/proj-shared/bif138/recalc_r2.sh
+    cd $WD
+done )
+#done < tiles.done
+#done < tiles.progress

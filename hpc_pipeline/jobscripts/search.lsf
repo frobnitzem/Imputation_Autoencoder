@@ -1,0 +1,13 @@
+#!/bin/bash
+# "Sweep" job - Run hyperparameter search across all tiles from all
+# chromosomes.  Used to 'clean up' the incomplete tiles.
+#BSUB -P stf006
+#BSUB -W 24:00
+#BSUB -nnodes 1856
+#BSUB -q batch
+#BSUB -J genome_hyper
+#BSUB -o search.%J
+
+source $PROJWORK/bif138/rogersdd/env2.sh
+
+pmake rules.yaml targets.yaml $((24*60-2))

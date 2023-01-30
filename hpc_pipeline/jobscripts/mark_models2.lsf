@@ -1,0 +1,24 @@
+#!/bin/bash
+# Begin LSF Directives, run mark_models on second set of chromosomes
+#BSUB -P bif138
+#BSUB -W 8:00
+#BSUB -q killable
+#BSUB -nnodes 1
+#BSUB -J mark_models2
+#BSUB -o mark_models2.%J
+#BSUB -e markmodels2_err.%J
+
+source /gpfs/alpine/proj-shared/bif138/rogersdd/env2.sh
+
+for i in {12,13,14,15,16,17,18,19,21}; do
+
+    echo $i
+    cd /gpfs/alpine/proj-shared/bif138/chr${i}
+
+    while read tile; do
+    echo $tile
+    python3 /gpfs/alpine/proj-shared/bif138/mark_models.py $tile
+
+    done < tiles.done
+
+done
